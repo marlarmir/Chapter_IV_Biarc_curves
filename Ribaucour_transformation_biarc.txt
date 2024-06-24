@@ -1,0 +1,54 @@
+import rhinoscriptsyntax as rs
+import math
+import Rhino as rh
+
+def inFoCir(circle):
+    center=rs.CircleCenterPoint(circle)
+    radius=rs.CircleRadius(circle)
+    return center, radius
+def inFo(cen1, cen2, rad1, rad2):
+    D=rs.Distance(cen1, cen2)
+    beta=math.degrees(math.atan((rad2-rad1)/D))
+    alpha=math.radians(2*beta)
+    d=(-D*2+rad12+rad22-2*rad1*rad2*math.cos(alpha))/(2(rad2*math.sin(alpha)-D))
+    angle=math.atan(abs(cen1[0]-cen2[0])/abs(cen1[1]-cen2[1]))
+    theta=math.radians(theTa)
+    p=rs.coerce3dpoint(rs.AddPoint(cen2[0]+rad2*(math.cos(theta)),cen2[1]+rad2*(math.sin(theta)),0))
+    A=(2*rad2*2*math.sin(alpha)-2*rad2*D+(math.sin(theta))(D*2-rad12-rad22+2*rad1*rad2*math.cos(alpha)))/((2*math.cos(theta))(rad2*math.sin(alpha)-D))
+    if -90<theTa<90:
+        sinVetha=(rad1*(d-D)+A*math.sqrt(A*2+(D-d)2-rad12))/(A2+(D-d)*2)
+        Vetha=math.asin(sinVetha)
+    if 90<theTa<270:
+        sinVetha=(rad1*(d-D)-A*math.sqrt(A*2+(D-d)2-rad12))/(A2+(D-d)*2)
+        Vetha=math.pi-math.asin(sinVetha)
+    if theTa==90:
+        Vetha=math.asin(-1)
+    if theTa==-90:
+        Vetha=math.asin(1)
+    if cen1[0]-cen2[0]>0 and cen1[1]-cen2[1]>0:
+        theTa1=theTa+270+90-math.degrees(angle)
+        Vetha1=math.radians(math.degrees(Vetha)+270+90-math.degrees(angle))
+    if cen1[0]-cen2[0]<0 and cen1[1]-cen2[1]>0:
+        theTa1=theTa+math.degrees(angle)
+        Vetha1=math.radians(math.degrees(Vetha)+math.degrees(angle))
+    if cen1[0]-cen2[0]<0 and cen1[1]-cen2[1]<0:
+        theTa1=theTa+180-math.degrees(angle)
+        Vetha1=math.radians(math.degrees(Vetha)+180-math.degrees(angle))
+    if cen1[0]-cen2[0]>0 and cen1[1]-cen2[1]<0:
+        theTa1=theTa+math.degrees(angle)+180
+        Vetha1=math.radians(math.degrees(Vetha)+math.degrees(angle)+180)
+    phead1=rs.coerce3dpoint(rs.AddPoint(cen2[0]+rad2*(math.cos(math.radians(theTa1))),cen2[1]+rad2*(math.sin(math.radians(theTa1))),0))
+    phead2=rs.coerce3dpoint(rs.AddPoint(cen1[0]+rad1*(math.cos(Vetha1)),cen1[1]+rad1*(math.sin(Vetha1)),0))
+    if theTa==90 or theTa==-90:
+        center=rs.coerce3dpoint(rs.AddPoint((phead1[0]+phead2[0])/2,(phead1[1]+phead2[1])/2,(phead1[2]+phead2[2])/2))
+    else:
+        v1=phead2[0]-cen1[0], phead2[1]-cen1[1], 0
+        v2=phead1[0]-cen2[0], phead1 [1]-cen2[1],0
+        v=(cen2[1]*v1[0]+v1[1]*cen1[0]-cen1[1]*v1[0]-v1[1]*cen2[0])/(v1[1]*v2[0]-v2[1]*v1[0])
+        center=rs.coerce3dpoint(rs.AddPoint(cen2[0]+v2[0]*v, cen2[1]+v2[1]*v, 0))
+    circle=rs.AddCircle(center, rs.Distance(center, phead2))
+    return phead1, phead2, circle
+
+cen1, rad1=inFoCir(LisTCir[0])
+cen2, rad2=inFoCir(ciRc)
+phead1, phead2, circle=inFo(cen1, cen2, rad1, rad2)
